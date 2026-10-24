@@ -1,0 +1,121 @@
+==================================================================
+        AI-BASED FLOOD RISK PREDICTION SYSTEM
+==================================================================
+
+Dataset shape : (3000, 11)
+
+Missing values before cleaning:
+Soil_Moisture_%    60
+Humidity_%         60
+Wind_Speed_kmph    60
+
+Missing values after cleaning : 0
+
+Statistical summary:
+                        mean       std    min       max
+Rainfall_mm           199.96    116.66   0.00    399.89
+River_Level_m           5.93      3.45   0.00     11.99
+Soil_Moisture_%        51.23     26.88   5.02     99.95
+Humidity_%             65.27     19.95  30.00     99.98
+Temperature_C          28.97      6.39  18.03     40.00
+Elevation_m           151.23     86.05   0.08    299.98
+Drainage_Index          0.51      0.29   0.00      1.00
+Population_Density   2578.61   1432.46  50.24   4999.51
+Wind_Speed_kmph        44.55     25.41   0.01     89.96
+Dam_Release_Cusecs  24429.95  14222.28   6.26  49986.60
+Flood                   0.31      0.46   0.00      1.00
+
+Class distribution:
+Flood
+No Flood    2071
+Flood        929
+
+Top correlations with Flood:
+Rainfall_mm           0.557
+River_Level_m         0.337
+Soil_Moisture_%       0.206
+Dam_Release_Cusecs    0.144
+Humidity_%            0.081
+Wind_Speed_kmph       0.061
+Population_Density    0.014
+Temperature_C        -0.002
+Elevation_m          -0.128
+Drainage_Index       -0.152
+
+------------------------------------------------------------------
+MODEL COMPARISON
+------------------------------------------------------------------
+                     Accuracy  Precision  Recall      F1     AUC   CV(5)
+Model                                                                   
+Logistic Regression    0.9150     0.8689  0.8548  0.8618  0.9737  0.9108
+Decision Tree          0.8367     0.7857  0.6505  0.7118  0.8908  0.8417
+KNN                    0.8633     0.8377  0.6935  0.7588  0.9152  0.8571
+Random Forest          0.8867     0.8598  0.7581  0.8057  0.9542  0.8904
+Gradient Boosting      0.8850     0.8462  0.7688  0.8056  0.9568  0.8954
+
+------------------------------------------------------------------
+HYPERPARAMETER TUNING (Random Forest, GridSearchCV)
+------------------------------------------------------------------
+Best parameters : {'max_depth': None, 'min_samples_split': 2, 'n_estimators': 200}
+Best CV F1      : 0.8205
+
+Tuned model accuracy : 88.67%
+Tuned model AUC      : 0.9542
+
+Confusion Matrix:
+ [[391  23]
+ [ 45 141]]
+
+Classification Report:
+               precision    recall  f1-score   support
+
+    No Flood       0.90      0.94      0.92       414
+       Flood       0.86      0.76      0.81       186
+
+    accuracy                           0.89       600
+   macro avg       0.88      0.85      0.86       600
+weighted avg       0.89      0.89      0.88       600
+
+Feature Importance:
+  Rainfall_mm          ######################    0.374
+  River_Level_m        ##########                0.181
+  Soil_Moisture_%      #####                     0.087
+  Drainage_Index       ###                       0.067
+  Elevation_m          ###                       0.065
+  Dam_Release_Cusecs   ###                       0.061
+  Humidity_%           ##                        0.044
+  Wind_Speed_kmph      ##                        0.044
+  Temperature_C        ##                        0.039
+  Population_Density   ##                        0.039
+
+Dashboard saved as flood_dashboard.png
+
+==================================================================
+FLOOD RISK PREDICTION FOR NEW LOCATIONS
+==================================================================
+Location                Probability   Risk Level
+------------------------------------------------------------------
+Chennai Coastal Area      97.5%      SEVERE
+Hill Station Village       0.5%      LOW
+River Bank Town           99.5%      SEVERE
+Dry Plateau Region         0.5%      LOW
+Suburban Colony           20.0%      LOW
+Delta Farmland            74.5%      HIGH
+
+ALERTS & RECOMMENDED ACTIONS:
+  [SEVERE] Chennai Coastal Area   -> Immediate evacuation. Alert disaster response team.
+  [LOW   ] Hill Station Village   -> No action needed.
+  [SEVERE] River Bank Town        -> Immediate evacuation. Alert disaster response team.
+  [LOW   ] Dry Plateau Region     -> No action needed.
+  [LOW   ] Suburban Colony        -> No action needed.
+  [HIGH  ] Delta Farmland         -> Evacuation advisory. Open relief camps.
+
+==================================================================
+SUMMARY
+==================================================================
+Total records        : 3000
+Features used        : 10
+Best algorithm       : Random Forest (tuned)
+Final accuracy       : 88.67%
+Final AUC score      : 0.9542
+Most important factor: Rainfall_mm
